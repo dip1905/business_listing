@@ -1,36 +1,154 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Business Listing Platform - Phase 1: Authentication & Roles
 
-## Getting Started
+A multi-role business listing platform built with Next.js 14, NextAuth.js, Prisma, and PostgreSQL.
 
-First, run the development server:
+## 🚀 Features Completed - Phase 1
 
+### ✅ Authentication System
+- **NextAuth.js** integration with JWT sessions
+- **Role-based authentication** (USER, OWNER, ADMIN)
+- **Credentials provider** (email/password)
+- **Google OAuth** integration (for users)
+- **Secure password hashing** with bcryptjs
+- **Role validation** and protected routes
+
+### ✅ User Roles & Access Control
+- **User**: Browse businesses, write reviews
+- **Business Owner**: Manage business listings
+- **Admin**: Platform administration (manually seeded)
+
+### ✅ Separate Authentication URLs
+- `/user/login` & `/user/register` - User authentication
+- `/owner/login` & `/owner/register` - Business owner authentication  
+- `/admin/login` - Admin authentication (no registration)
+
+### ✅ Role-Based Dashboards
+- Protected dashboard pages for each role
+- Role validation middleware
+- Automatic redirects based on user role
+
+## 🛠️ Tech Stack
+
+- **Framework**: Next.js 14 (App Router)
+- **Authentication**: NextAuth.js v4
+- **Database**: PostgreSQL with Prisma ORM
+- **Styling**: Tailwind CSS
+- **Language**: TypeScript
+
+## 📋 Setup Instructions
+
+### 1. Install Dependencies
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. Database Setup
+```bash
+# Generate Prisma client
+npm run db:generate
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+# Run database migrations
+npm run db:migrate
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+# Seed the database with test users
+npm run db:seed
+```
 
-## Learn More
+### 3. Environment Variables
+Update `.env` with your database URL and authentication secrets:
+```env
+DATABASE_URL="postgresql://username:password@localhost:5432/businesslisting"
+NEXTAUTH_SECRET="your-secret-key"
+NEXTAUTH_URL="http://localhost:3000"
+GOOGLE_CLIENT_ID="your-google-client-id"
+GOOGLE_CLIENT_SECRET="your-google-client-secret"
+```
 
-To learn more about Next.js, take a look at the following resources:
+### 4. Run Development Server
+```bash
+npm run dev
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🔐 Test Credentials
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+After running the seed script, you can use these test accounts:
 
-## Deploy on Vercel
+- **Admin**: `admin@businesslisting.com` / `admin123`
+- **Owner**: `owner@example.com` / `owner123`  
+- **User**: `user@example.com` / `user123`
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🌐 Authentication Flow
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### User Registration & Login
+- Users can register with email/password or Google OAuth
+- Automatic role assignment (USER for new registrations)
+- Role-based dashboard redirects
+
+### Business Owner Registration & Login
+- Business owners register with email/password
+- Automatic role assignment (OWNER)
+- Access to business management features
+
+### Admin Login
+- Admin accounts are manually seeded in database
+- No public registration available
+- Full platform administration access
+
+## 🛡️ Security Features
+
+- **Password hashing** with bcryptjs (12 rounds)
+- **JWT session management** with NextAuth.js
+- **Role-based middleware** protection
+- **CSRF protection** built into NextAuth.js
+- **Input validation** on registration forms
+
+## 📁 Project Structure
+
+```
+app/
+├── api/auth/[...nextauth]/     # NextAuth configuration
+├── api/user/register/          # User registration API
+├── api/owner/register/         # Owner registration API
+├── user/                       # User authentication pages
+├── owner/                      # Owner authentication pages
+├── admin/                      # Admin authentication pages
+├── auth/error/                 # Authentication error page
+└── page.tsx                    # Landing page
+
+components/
+└── LogoutButton.tsx            # Logout functionality
+
+lib/
+├── auth-provider.tsx           # NextAuth session provider
+├── prisma.ts                   # Prisma client
+└── hash.ts                     # Password hashing utilities
+
+prisma/
+├── schema.prisma               # Database schema
+└── seed.ts                     # Database seeding script
+
+types/
+└── next-auth.d.ts             # NextAuth TypeScript declarations
+```
+
+## 🔄 Next Steps (Phase 2)
+
+- Business listing CRUD operations
+- Review and rating system
+- Search and filtering functionality
+- File upload for business images
+- Email verification system
+- Password reset functionality
+
+## 🚀 Deployment
+
+The application is ready for deployment on platforms like Vercel, Netlify, or any Node.js hosting service. Make sure to:
+
+1. Set up a production PostgreSQL database
+2. Update environment variables for production
+3. Run database migrations in production
+4. Configure Google OAuth for production domain
+
+---
+
+**Phase 1 Complete** ✅ - Authentication system with role-based access control is fully implemented and ready for use!
