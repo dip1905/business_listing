@@ -8,7 +8,7 @@ export default withAuth(
 
     // Role-based access control
     if (pathname.startsWith("/admin")) {
-      if (token?.role !== "ADMIN") {
+      if (token?.role !== "ADMIN" && !pathname.includes("/login")) {
         return NextResponse.redirect(new URL("/admin/login", req.url));
       }
     }

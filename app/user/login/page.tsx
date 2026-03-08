@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { signIn, getSession } from "next-auth/react";
+import { signIn, signOut, getSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
@@ -32,7 +32,7 @@ export default function UserLogin() {
           router.push("/user/dashboard");
         } else {
           setError("Access denied. This login is for users only.");
-          await signIn("credentials", { redirect: false }); // Sign out
+          await signOut({ redirect: false });
         }
       }
     } catch (error) {
